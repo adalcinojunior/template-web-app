@@ -1,12 +1,76 @@
-# Getting Started with Create React App
+# Template Web-App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align="center">
+
+[![React][react-bagde]][react-url]
+[![Material UI][mui-badge]][mui-url]
+[![Redux][redux-badge]][redux-url]
+[![Typescript][typescript-badge]][typescript-url]
+
+</div>
+
+#### Features:
+
+- Auth using JWT;
+- Responsive layout;
+- Internationalization with i18n.
+
+## Prerequisites
+
+- [Node 16.20.2](https://nodejs.org/en/download/)
+- [ReactJS 17.0.2](https://pt-br.reactjs.org/)
+- [Npm 7.8.0](https://www.npmjs.com) or  [Yarn 1.22.15](https://yarnpkg.com)
+
+---
+
+## Cloning the Project
+
+```
+git clone https://github.com/adalcinojunior/template-web-app.git
+```
+
+## Set the environment variables
+
+Application settings are defined by environment variables. To define the settings, make a copy of the `.env.example`
+file, naming for `.env`. After that, open and edit the settings as needed. The following environments variables are
+available:
+
+| VARIABLE                  | DESCRIPTION                                                        | DEFAULT                  |
+|---------------------------|--------------------------------------------------------------------|--------------------------|
+| `REACT_APP_LS_SECRET_KEY` | Encryption key used to encrypt data stored in localStorage.        | `s3cr3tk3y`              |
+| `PORT`               | Port used by the application to listen to HTTP requests in a development environment. | `3000`                     |
+| `REACT_APP_ISSUER` | Issuer used to generate the JWT token.        | `issuer`              |
+| `REACT_APP_JWT_PUBLIC_KEY` | Public key for validating the jwt token.        | `-----BEGIN RSA PUBLIC KEY----------END RSA PUBLIC KEY-----`              |
+| `REACT_APP_TITLE` | Application title.        | `Template Web-app`              |
+| `REACT_APP_DESCRIPTION` | Application description.        | `Projeto base para criação de aplicações web usando react+mui+redux toolkit+i18next.`              |
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### Install dependencies
+
+```
+npm install
+```
+
+or
+
+```
+yarn install
+```
+
+### Run development mode
+
+```
+npm run start
+```
+
+or
+
+```
+yarn start
+```
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -14,12 +78,17 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
+### Building of project
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+npm run build
+```
 
-### `npm run build`
+or
+
+```
+yarn build
+```
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -29,18 +98,75 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Using Docker
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+To generate your own docker image, run the following command:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```sh
+docker build -t image_name:tag .
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Considering an image generated with the name `template/web-app`. You can create a container by passing the
+settings that are desired by the environment variables. The supported settings are the same as those defined
+in ["Set the environment variables"](#set-the-environment-variables). See the following example:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### HTTPS
+```sh
+docker run --rm \
+  -v $(pwd)/.certs:/etc \
+  -e SSL_KEY_PATH=/etc/server_key.pem \
+  -e SSL_CERT_PATH=/etc/server_cert.pem \
+  -e REACT_APP_ENV=development \
+  -e REACT_APP_LS_SECRET_KEY="s3cr3tk3y" \
+  -e REACT_APP_ISSUER="issuer" \
+  -e REACT_APP_JWT_PUBLIC_KEY=/etc/jwt.key.pub \
+  -e REACT_APP_TITLE="Application title." \
+  -e REACT_APP_DESCRIPTION="Application description." \
+  -p 443:443 \
+  --name template_web_app \
+  template/web-app
+```
 
-## Learn More
+To view the front-end in the browser, simply access the address: [https://localhost](https://localhost)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### HTTP
+```sh
+docker run --rm \
+  -e REACT_APP_ENV=development \
+  -e REACT_APP_LS_SECRET_KEY="s3cr3tk3y" \
+  -e REACT_APP_ISSUER="issuer" \
+  -e REACT_APP_JWT_PUBLIC_KEY=/etc/jwt.key.pub \
+  -e REACT_APP_TITLE="Application title." \
+  -e REACT_APP_DESCRIPTION="Application description." \
+  -p 80:80 \
+  --name template_web_app \
+  template/web-app
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To view the front-end in the browser, simply access the address: [http://localhost](http://localhost)
+
+[//]: # (These are reference links used in the body of this note.)
+
+[license-badge]: https://shields.io/badge/-Apache2-E93824?style=plastic&logo=apache
+
+[license-url]: https://github.com/smtc-sefaz-pb/web-app/blob/main/LICENSE
+
+[node-badge]: https://shields.io/badge/-Node-gray?style=plastic&logo=node.js
+
+[node-url]: https://nodejs.org
+
+[typescript-badge]: https://shields.io/badge/-Typescript-lightblue?style=plastic&logo=typescript
+
+[typescript-url]: https://www.typescriptlang.org/
+
+[react-bagde]: https://shields.io/badge/-React-20232A?style=plastic&logo=react
+
+[react-url]: https://pt-br.reactjs.org/
+
+[redux-badge]: https://shields.io/badge/-Redux-purple?style=plastic&logo=redux
+
+[redux-url]: https://redux.js.org/
+
+[mui-badge]:https://shields.io/badge/-MaterialUI-white?style=plastic&logo=mui
+
+[mui-url]: https://material-ui.com/pt/
