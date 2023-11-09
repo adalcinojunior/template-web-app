@@ -150,10 +150,6 @@ To view the front-end in the browser, simply access the address: [http://localho
 
 [//]: # (These are reference links used in the body of this note.)
 
-[license-badge]: https://shields.io/badge/-Apache2-E93824?style=plastic&logo=apache
-
-[license-url]: https://github.com/smtc-sefaz-pb/web-app/blob/main/LICENSE
-
 [node-badge]: https://shields.io/badge/-Node-gray?style=plastic&logo=node.js
 
 [node-url]: https://nodejs.org
