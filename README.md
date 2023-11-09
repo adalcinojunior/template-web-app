@@ -43,6 +43,8 @@ available:
 | `REACT_APP_JWT_PUBLIC_KEY` | Public key for validating the jwt token.        | `-----BEGIN RSA PUBLIC KEY----------END RSA PUBLIC KEY-----`              |
 | `REACT_APP_TITLE` | Application title.        | `Template Web-app`              |
 | `REACT_APP_DESCRIPTION` | Application description.        | `Projeto base para criação de aplicações web usando react+mui+redux toolkit+i18next.`              |
+| `SSL_KEY_PATH` | Private key for SSL certificate.        | `.certs/server_key.pem`              |
+| `SSL_CERT_PATH` | Certificate for SSL certificate.        | `.certs/server_cert.pem`              |
 
 ## Available Scripts
 
