@@ -25,4 +25,6 @@ ENTRYPOINT sed -i -e "s@REACT_APP_LS_SECRET_KEY_VALUE@${REACT_APP_LS_SECRET_KEY}
            -e "s@REACT_APP_JWT_PUBLIC_KEY_VALUE@${REACT_APP_JWT_PUBLIC_KEY}@g" \
            -e "s@REACT_APP_TITLE_VALUE@${REACT_APP_TITLE}@g" \
            -e "s@REACT_APP_DESCRIPTION_VALUE@${REACT_APP_DESCRIPTION}@g" build/static/js/*.js build/index.html ;\
-           serve -s -n -l 80 build
+            if test -f "$SSL_CERT_PATH" && test -f "$SSL_KEY_PATH";\
+            then serve -s -n -l 443 --ssl-cert $SSL_CERT_PATH --ssl-key $SSL_KEY_PATH build;\
+            else serve -s -n -l 80 build;fi;

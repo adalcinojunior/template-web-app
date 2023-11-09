@@ -110,20 +110,41 @@ Considering an image generated with the name `template/web-app`. You can create 
 settings that are desired by the environment variables. The supported settings are the same as those defined
 in ["Set the environment variables"](#set-the-environment-variables). See the following example:
 
+#### HTTPS
 ```sh
-docker run -d --rm \
+docker run --rm \
+  -v $(pwd)/.certs:/etc \
+  -e SSL_KEY_PATH=/etc/server_key.pem \
+  -e SSL_CERT_PATH=/etc/server_cert.pem \
+  -e REACT_APP_ENV=development \
   -e REACT_APP_LS_SECRET_KEY="s3cr3tk3y" \
   -e REACT_APP_ISSUER="issuer" \
-  -e REACT_APP_JWT_PUBLIC_KEY="-----BEGIN RSA PUBLIC KEY----------END RSA PUBLIC KEY-----" \
+  -e REACT_APP_JWT_PUBLIC_KEY=/etc/jwt.key.pub \
+  -e REACT_APP_TITLE="Application title." \
+  -e REACT_APP_DESCRIPTION="Application description." \
+  -p 443:443 \
+  --name template_web_app \
+  template/web-app
+```
+
+To view the front-end in the browser, simply access the address: [https://localhost](https://localhost)
+
+#### HTTP
+```sh
+docker run --rm \
+  -v $(pwd)/jwt.key.pub:/etc/jwt.key.pub \
+  -e REACT_APP_ENV=development \
+  -e REACT_APP_LS_SECRET_KEY="s3cr3tk3y" \
+  -e REACT_APP_ISSUER="issuer" \
+  -e REACT_APP_JWT_PUBLIC_KEY=/etc/jwt.key.pub \
   -e REACT_APP_TITLE="Application title." \
   -e REACT_APP_DESCRIPTION="Application description." \
   -p 80:80 \
   --name template_web_app \
-  template/web-app 
+  template/web-app
 ```
 
-To view the front-end in the browser, simply access the address: [http://localhost:80](http://localhost:80)
-
+To view the front-end in the browser, simply access the address: [http://localhost](http://localhost)
 
 [//]: # (These are reference links used in the body of this note.)
 
