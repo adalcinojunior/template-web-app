@@ -134,6 +134,7 @@ To view the front-end in the browser, simply access the address: [https://localh
 #### HTTP
 ```sh
 docker run --rm \
+  -v $(pwd)/jwt.key.pub:/etc/jwt.key.pub \
   -e REACT_APP_ENV=development \
   -e REACT_APP_LS_SECRET_KEY="s3cr3tk3y" \
   -e REACT_APP_ISSUER="issuer" \
@@ -148,10 +149,6 @@ docker run --rm \
 To view the front-end in the browser, simply access the address: [http://localhost](http://localhost)
 
 [//]: # (These are reference links used in the body of this note.)
-
-[license-badge]: https://shields.io/badge/-Apache2-E93824?style=plastic&logo=apache
-
-[license-url]: https://github.com/smtc-sefaz-pb/web-app/blob/main/LICENSE
 
 [node-badge]: https://shields.io/badge/-Node-gray?style=plastic&logo=node.js
 
