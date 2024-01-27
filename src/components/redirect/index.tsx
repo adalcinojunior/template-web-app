@@ -8,10 +8,12 @@ interface IProps extends IComponentRouter {
 }
 
 class RedirectComponent extends Component<IProps> {
-
-    public render() {
+    public componentDidMount() {
         const { to, navigate } = this.props
         window.setTimeout(() => navigate(to), 0)
+    }
+
+    public render() {
         return <Loading/>
     }
 }

@@ -5,9 +5,10 @@ import { createStyles, withStyles, WithStyles } from '@mui/styles'
 import { WithTranslation, withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { LayoutActions } from '../../../store/layout'
-import { Alert, SnackBarMessageType } from '../snackbar'
+import { Alert } from '../snackbar'
 import Loading from '../loading'
 import { ApplicationState } from '../../../store/root.types'
+import { SnackBarMessageType } from '../../../store/snackbar'
 
 const Style = (theme: Theme) => createStyles({
     container: {

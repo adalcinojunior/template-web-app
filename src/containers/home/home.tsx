@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
-import { Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { withTranslation, WithTranslation } from 'react-i18next'
+import { IActionsOpenSnackBar, SnackbarActions, SnackBarMessageType } from '../../store/snackbar'
+import { connect } from 'react-redux'
 
-class HomeComponent extends Component<WithTranslation> {
+interface IProps extends WithTranslation {
+    openSnackBar(data: IActionsOpenSnackBar): void
+}
+
+class HomeComponent extends Component<IProps> {
     /**
      * Method belonging to the component's life cycle, triggered immediately after a component is assembled (inserted in the tree).
      * @see {@link https://pt-br.reactjs.org/docs/react-component.html#componentdidmount}
@@ -18,6 +24,7 @@ class HomeComponent extends Component<WithTranslation> {
      * @returns {React.ReactNode} Login screen for the user to authenticate to the system
      */
     public render() {
+        const { openSnackBar } = this.props
         return <React.Fragment>
 
             <Typography variant="h6">
@@ -51,10 +58,66 @@ class HomeComponent extends Component<WithTranslation> {
                 exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
                 `}
             </Typography>
+            <Box display="flex" flexWrap="wrap">
+                <Box p={1}>
+                    <Button
+                        color="success"
+                        onClick={() => {
+                            openSnackBar({
+                                type: SnackBarMessageType.SUCCESS,
+                                title: 'Success title',
+                                message: 'Success message'
+                            })
+                        }}>
+                        Open Snackbar
+                    </Button>
+                </Box>
+                <Box p={1}>
+                    <Button
+                        color="info"
+                        onClick={() => {
+                            openSnackBar({
+                                type: SnackBarMessageType.INFO,
+                                title: 'Info title',
+                                message: 'Info message'
+                            })
+                        }}>
+                        Open Snackbar
+                    </Button>
+                </Box>
+                <Box p={1}>
+                    <Button
+                        color="warning"
+                        onClick={() => {
+                            openSnackBar({
+                                type: SnackBarMessageType.WARNING,
+                                title: 'Warning title',
+                                message: 'Warning message'
+                            })
+                        }}>
+                        Open Snackbar
+                    </Button>
+                </Box>
+                <Box p={1}>
+                    <Button
+                        color="error"
+                        onClick={() => {
+                            openSnackBar({
+                                type: SnackBarMessageType.ERROR,
+                                title: 'Error title',
+                                message: 'Error message'
+                            })
+                        }}>
+                        Open Snackbar
+                    </Button>
+                </Box>
+            </Box>
         </React.Fragment>
     }
 }
 
-const Home: any = withTranslation()(HomeComponent)
+const HomeWithTranslation: any = withTranslation()(HomeComponent)
+
+const Home: any = connect(undefined, SnackbarActions)(HomeWithTranslation)
 
 export default Home

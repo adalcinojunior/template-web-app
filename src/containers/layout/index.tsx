@@ -196,7 +196,7 @@ class LayoutComponent extends Component<IJoinProps, IState> {
 
         const localUsername = localStorageService.getItem('username')
 
-        if (localUsername && !username) {
+        if (localUsername && !username && changeUsername) {
             changeUsername(localUsername)
         }
     }

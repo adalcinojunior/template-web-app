@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-import authService from '../../../services/auth'
-import { DRAWER_WIDTH } from '../nav.bar'
 import {
     AppBar,
     Avatar,
@@ -20,10 +18,12 @@ import { AccountCircle, ExitToApp, Face, Menu as MenuIcon } from '@mui/icons-mat
 import { styled } from '@mui/material/styles'
 import { createStyles, withStyles, WithStyles } from '@mui/styles'
 import { WithTranslation, withTranslation } from 'react-i18next'
+import clsx from 'clsx'
 
+import { DRAWER_WIDTH } from '../nav.bar'
+import authService from '../../../services/auth'
 import ThemeButton from '../../../containers/layout/theme.button'
 import { IComponentRouter, withRouter } from '../../with.router'
-import clsx from 'clsx'
 
 export const UserButton = styled(Button)({
     textTransform: 'none'
@@ -151,20 +151,7 @@ class AppBarComponent extends Component<IProps, IState> {
             }}>
 
             <Toolbar variant="dense">
-
-                {/*<Box sx={{ display: { xl: 'none', lg: 'none', md: 'none', sm: 'block', xs: 'block' } }}>*/}
-                {/*    <IconButton*/}
-                {/*        id="btn_toggle_drawer"*/}
-                {/*        color="inherit"*/}
-                {/*        aria-label="open drawer"*/}
-                {/*        edge="start"*/}
-                {/*        onClick={drawerToggle}*/}
-                {/*        className={classes.menuButton}>*/}
-                {/*        <MenuIcon/>*/}
-                {/*    </IconButton>*/}
-                {/*</Box>*/}
-
-
+                
                 <Box sx={{ display: { xl: 'block', lg: 'block', md: 'block', sm: 'none', xs: 'none' } }}>
                     <Box style={{ marginLeft: desktopOpen ? `${DRAWER_WIDTH}px` : '10px' }}>
                         <IconButton
