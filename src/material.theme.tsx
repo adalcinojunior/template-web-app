@@ -8,7 +8,7 @@ export const parseStringToThemeMode = (theme: string): ThemeMode => {
         case 'light':
             return ThemeMode.LIGHT
         case 'dark':
-            return ThemeMode.LIGHT
+            return ThemeMode.DARK
     }
     return ThemeMode.LIGHT
 }

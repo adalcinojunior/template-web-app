@@ -1,15 +1,10 @@
 import React, { Component, lazy } from 'react'
+
 import { WithTranslation, withTranslation } from 'react-i18next'
-
-import { Box, Typography } from '@mui/material'
-import { withStyles, WithStyles } from '@mui/styles'
-
-import settingsLogo from '../../../assets/imgs/escape.pages/settings.svg'
-import { Style } from './not.found'
+import { SvgIcon } from '@mui/material'
+import { RoomPreferences } from '@mui/icons-material'
 
 const EscapePage = lazy(() => import('./escape.component'))
-
-type Props = WithTranslation & WithStyles<typeof Style>
 
 /**
  * Page that renders internal server error escape page.
@@ -18,37 +13,29 @@ type Props = WithTranslation & WithStyles<typeof Style>
  * @category Components
  * @subcategory Escape Pages
  */
-class InternalErrorComponent extends Component<Props> {
+class InternalErrorComponent extends Component<WithTranslation> {
 
     /**
      * @public
      * @returns {React.ReactNode} Render the escape page.
      */
     public render() {
-        const { t, classes } = this.props
-
-        const image = <Box display="flex" justifyContent="center" alignItems="center" className={classes.image}>
-            <img
-                id="img_settings_logo"
-                src={settingsLogo}
-                title={t('ESCAPE_PAGE.INTERNAL_ERROR.TITLE')}
-                alt={t('ESCAPE_PAGE.INTERNAL_ERROR.TITLE')}/>
-            <Box p={1}>
-                <Typography color="primary">ops...</Typography>
-            </Box>
-        </Box>
-
+        const { t } = this.props
 
         return <EscapePage
-            image={image}
+            image={
+                <SvgIcon
+                    titleAccess={t('ESCAPE_PAGE.INTERNAL_ERROR.TITLE')}
+                    component={RoomPreferences}
+                    color="primary"
+                    sx={{ width: 150, height: 150 }}/>
+            }
             title={t('ESCAPE_PAGE.INTERNAL_ERROR.TITLE')}
             helmet={t('ESCAPE_PAGE.INTERNAL_ERROR.HELMET')}
             description={t('ESCAPE_PAGE.INTERNAL_ERROR.DESCRIPTION')}/>
     }
 }
 
-const InternalWithTranslation = withTranslation()(InternalErrorComponent)
-
-const InternalError: any = withStyles<any>(Style, { withTheme: true })(InternalWithTranslation)
+const InternalError: any = withTranslation()(InternalErrorComponent)
 
 export default InternalError

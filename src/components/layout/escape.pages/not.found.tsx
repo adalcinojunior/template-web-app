@@ -1,25 +1,10 @@
 import React, { Component, lazy } from 'react'
+
 import { WithTranslation, withTranslation } from 'react-i18next'
-
-import { Box, Typography } from '@mui/material'
-import { createStyles, withStyles, WithStyles } from '@mui/styles'
-
-import warningLogo from '../../../assets/imgs/escape.pages/not-found.svg'
+import { SvgIcon } from '@mui/material'
+import { SearchOff } from '@mui/icons-material'
 
 const EscapePage = lazy(() => import('./escape.component'))
-
-export const Style = () => createStyles({
-    image: {
-        padding: 0,
-        '& p': {
-            fontSize: '40px',
-            fontWeight: 'bold',
-            marginTop: '-10px'
-        }
-    }
-})
-
-type Props = WithTranslation & WithStyles<typeof Style>
 
 /**
  * Page that renders not found escape page.
@@ -28,36 +13,29 @@ type Props = WithTranslation & WithStyles<typeof Style>
  * @category Components
  * @subcategory Escape Pages
  */
-class NotFoundComponent extends Component<Props> {
+class NotFoundComponent extends Component<WithTranslation> {
 
     /**
      * @public
      * @returns {React.ReactNode} Render the escape page.
      */
     public render() {
-        const { t, classes } = this.props
-
-        const image = <Box display="flex" justifyContent="center" alignItems="center" className={classes.image}>
-            <img
-                id="img_warning"
-                src={warningLogo}
-                title={t('ESCAPE_PAGE.NOT_FOUND.TITLE')}
-                alt={t('ESCAPE_PAGE.NOT_FOUND.TITLE')}/>
-            <Box p={1}>
-                <Typography color="primary">404</Typography>
-            </Box>
-        </Box>
+        const { t } = this.props
 
         return <EscapePage
-            image={image}
+            image={
+                <SvgIcon
+                    titleAccess={t('ESCAPE_PAGE.NOT_FOUND.TITLE')}
+                    component={SearchOff}
+                    color="primary"
+                    sx={{ width: 150, height: 150 }}/>
+            }
             helmet={t('ESCAPE_PAGE.NOT_FOUND.HELMET')}
             title={t('ESCAPE_PAGE.NOT_FOUND.TITLE')}
             description={t('ESCAPE_PAGE.NOT_FOUND.DESCRIPTION')}/>
     }
 }
 
-const NotFoundWithTranslation = withTranslation()(NotFoundComponent)
-
-const NotFound: any = withStyles<any>(Style, { withTheme: true })(NotFoundWithTranslation)
+const NotFound: any = withTranslation()(NotFoundComponent)
 
 export default NotFound

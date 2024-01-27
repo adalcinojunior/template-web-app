@@ -23,7 +23,7 @@ import { ThemeMode } from '../../material.theme'
 import { IComponentRouter, withRouter } from '../../components/with.router'
 import { ApplicationState, AsyncStateStatus } from '../../store/root.types'
 import { AuthActions } from '../../store/auth'
-import { LayoutActions, IActionsChangeLanguage } from '../../store/layout'
+import { IActionsChangeLanguage, LayoutActions } from '../../store/layout'
 
 import ThemeButton from '../layout/theme.button'
 import { IActionAuth } from '../../store/auth/types'
@@ -169,14 +169,6 @@ class Login extends Component<JoinProps, State> {
         const { showPassword, login, password } = this.state
         const loading: boolean = status === AsyncStateStatus.LOADING
 
-        console.log({
-            REACT_APP_LS_SECRET_KEY: process.env.REACT_APP_LS_SECRET_KEY,
-            REACT_APP_TITLE: process.env.REACT_APP_TITLE,
-            REACT_APP_DESCRIPTION: process.env.REACT_APP_DESCRIPTION,
-            REACT_APP_ISSUER: process.env.REACT_APP_ISSUER,
-            REACT_APP_JWT_PUBLIC_KEY: process.env.REACT_APP_JWT_PUBLIC_KEY
-        })
-
         if (authService.isAuthenticated()) {
             return <Redirect to="/app/home"/>
         }
@@ -239,6 +231,7 @@ class Login extends Component<JoinProps, State> {
                                                     onChange={
                                                         (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
                                                             setFieldValue('login', e.target.value)
+                                                                .then()
                                                         }
                                                     }
                                                     onBlur={() => setFieldTouched('login', true, true)}

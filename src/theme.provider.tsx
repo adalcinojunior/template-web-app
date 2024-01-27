@@ -1,17 +1,12 @@
 import React, { Component, Suspense } from 'react'
 import { connect } from 'react-redux'
-import { ThemeProvider, createTheme, CssBaseline } from '@mui/material'
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { RouterProvider } from 'react-router-dom'
 import CONFIG_THEME, { ThemeMode } from './material.theme'
-import {
-    LanguageOptions,
-    MAP_ENUM_TO_LANGUAGE,
-    MAP_ENUM_TO_LOCALE,
-    parseStringToEnumLanguage
-} from './i18n'
+import { LanguageOptions, MAP_ENUM_TO_LANGUAGE, MAP_ENUM_TO_LOCALE, parseStringToEnumLanguage } from './i18n'
 import { LayoutActions } from './store/layout'
-import SnackbarComponent from './components/layout/snackbar'
+import Snackbar from './components/layout/snackbar'
 import router from './routes'
 import ErrorBoundary from './components/layout/error.boundary'
 import localStorageService from './services/local.storage'
@@ -85,7 +80,7 @@ class ThemeProviderComponent extends Component<IJoinProps> {
             <ErrorBoundary>
                 <React.Fragment>
                     <CssBaseline/>
-                    <SnackbarComponent/>
+                    <Snackbar/>
                     <UpdateAvailable/>
                     <Suspense fallback={<Loading/>}>
                         <RouterProvider router={router}/>
