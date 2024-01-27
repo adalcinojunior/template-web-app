@@ -5,8 +5,8 @@ import { createStyles, withStyles, WithStyles } from '@mui/styles'
 import { connect } from 'react-redux'
 import { Alert as MuiAlert, AlertProps, Box, Snackbar, Theme, Typography } from '@mui/material'
 
-// import { closeSnackBar } from '../../../store/snackbar'
 import { ApplicationState } from '../../../store/root.types'
+import { IActionsOpenSnackBar, SnackbarActions, SnackBarMessageType } from '../../../store/snackbar'
 
 const Style = (theme: Theme) => createStyles({
     root: {
@@ -31,13 +31,6 @@ export const Alert = (props: AlertProps) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />
 }
 
-export enum SnackBarMessageType {
-    ERROR = 'error',
-    INFO = 'info',
-    WARNING = 'warning',
-    SUCCESS = 'success'
-}
-
 /**
  * @private
  * @property {boolean} open
@@ -51,6 +44,8 @@ interface IProps extends WithStyles<typeof Style> {
     readonly title: string
     readonly message: string
     readonly type: SnackBarMessageType
+
+    openSnackBar(data: IActionsOpenSnackBar): void
 
     closeSnackBar(): void
 }
@@ -69,6 +64,38 @@ type Props = IProps & WithTranslation
  * @property {function} close function that triggers the closing of the snackbar
  */
 class SnackbarComponent extends Component<Props> {
+    /**
+     * Is invoked immediately after any update occurs. This method is not called by the initial render.
+     * @see {@link https://pt-br.reactjs.org/docs/react-component.html#componentdidupdate}
+     * @public
+     * @param {Readonly<Props>} prevProps
+     * @param {Readonly<{}>} prevState
+     * @param {*} [snapshot]
+     * @returns {void}
+     */
+    public componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<{}>, snapshot?: any) {
+        const {
+            open,
+            message,
+            type,
+            title,
+            openSnackBar,
+            closeSnackBar
+        } = this.props
+        const {
+            message: prevMessage,
+            type: prevType,
+            title: prevTitle
+        } = prevProps
+        const hasUpdate: boolean = Boolean(message && prevMessage && type && prevType && title && prevTitle)
+        const hasDiff: boolean = (message !== prevMessage || type !== prevType || title !== prevTitle)
+        if (open && hasUpdate && hasDiff) {
+            closeSnackBar()
+            window.setTimeout(() => {
+                openSnackBar({ title, type, message })
+            }, 0)
+        }
+    }
 
     /**
      * @public
@@ -96,11 +123,11 @@ class SnackbarComponent extends Component<Props> {
         return <Snackbar
             id="snackbar-component"
             open={open}
-            autoHideDuration={5000}
+            autoHideDuration={3000}
             onClose={closeSnackBar}
             className={classes.root}
             anchorOrigin={{ vertical, horizontal }}>
-            <Alert id="alert-system" onClose={closeSnackBar} severity={type}>
+            <MuiAlert id="alert-system" onClose={closeSnackBar} severity={type}>
                 <Box className={classes.container}>
                     {
                         !!title && <Typography id="alert-title" className={classes.title}>{t(title)}</Typography>
@@ -110,7 +137,7 @@ class SnackbarComponent extends Component<Props> {
                         <Typography id="alert-message" className={classes.message}>{t(message)}</Typography>
                     }
                 </Box>
-            </Alert>
+            </MuiAlert>
         </Snackbar>
     }
 }
@@ -126,6 +153,6 @@ const SnackBarWithTranslations: any = withTranslation()(SnackbarComponent)
 
 const SnackBarWithStyle: any = withStyles<any>(Style)(SnackBarWithTranslations)
 
-export default connect(mapStateToProps, { closeSnackBar: () => console.log('CloseSnackBar') })(SnackBarWithStyle)
+export default connect(mapStateToProps, SnackbarActions)(SnackBarWithStyle)
 
 

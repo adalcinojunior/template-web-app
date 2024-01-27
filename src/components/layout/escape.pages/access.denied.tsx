@@ -1,9 +1,9 @@
 import React, { Component, lazy } from 'react'
+
 import { WithTranslation, withTranslation } from 'react-i18next'
-
 import { WithStyles } from '@mui/styles'
-
-import protectionLogo from '../../../assets/imgs/escape.pages/protection.svg'
+import { SvgIcon } from '@mui/material'
+import { WarningAmber } from '@mui/icons-material'
 
 const EscapePage = lazy(() => import('./escape.component'))
 
@@ -25,13 +25,14 @@ class AccessDeniedComponent extends Component<Props> {
     public render() {
         const { t } = this.props
 
-        const image = <img
-            src={protectionLogo}
-            title={t('ESCAPE_PAGE.ACCESS_DENIED.TITLE')}
-            alt={t('ESCAPE_PAGE.ACCESS_DENIED.TITLE')}/>
-
         return <EscapePage
-            image={image}
+            image={
+                <SvgIcon
+                    titleAccess={t('ESCAPE_PAGE.ACCESS_DENIED.TITLE')}
+                    component={WarningAmber}
+                    color="primary"
+                    sx={{ width: 150, height: 150 }}/>
+            }
             title={t('ESCAPE_PAGE.ACCESS_DENIED.TITLE')}
             helmet={t('ESCAPE_PAGE.ACCESS_DENIED.HELMET')}
             description={t('ESCAPE_PAGE.ACCESS_DENIED.DESCRIPTION')}/>
