@@ -1,7 +1,7 @@
 {
   "name": "template-web-app",
   "description": "Base project for creating web applications using react+mui+redux toolkit+i18next.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "license": "MIT",
   "dependencies": {
@@ -31,7 +31,6 @@
   },
   "devDependencies": {
     "@types/jest": "^27.5.2",
-    "@types/jsonwebtoken": "^9.0.3",
     "@types/node": "^16.18.46",
     "@types/react": "17.0.39",
     "@types/react-dom": "^18.2.7",
