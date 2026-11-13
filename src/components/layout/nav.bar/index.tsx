@@ -41,10 +41,8 @@ const CustomNavLink = forwardRef((props: any, ref: ForwardedRef<any>) => {
     return <NavLink
         ref={ref}
         {...props}
-        className={({ isActive }) => clsx(props.className, { [style.active]: isActive })}/>
+        className={({ isActive }) => clsx(props.className, { [style.active]: isActive })} />
 })
-
-export const DRAWER_WIDTH = 220
 
 const NavBarStyle = (theme: Theme) => createStyles({
     root: {
@@ -52,7 +50,7 @@ const NavBarStyle = (theme: Theme) => createStyles({
     },
     drawer: {
         [theme.breakpoints.up('lg')]: {
-            width: DRAWER_WIDTH,
+            width: (props: any) => props.drawerWidth,
             flexShrink: 0
         },
         transition: '.2s all'
@@ -66,7 +64,7 @@ const NavBarStyle = (theme: Theme) => createStyles({
         padding: theme.spacing(2)
     },
     drawerPaper: {
-        width: DRAWER_WIDTH,
+        width: (props: any) => props.drawerWidth,
         transition: '.3s all',
         boxShadow: '2px 50px 10px 0px rgba(0,0,0,0.3)',
         border: 'none !important',
@@ -115,6 +113,7 @@ interface Props extends WithStyles<typeof NavBarStyle, true> {
     readonly mobileOpen: boolean
     readonly desktopOpen: boolean
     readonly themeMode: ThemeMode
+    readonly drawerWidth: number
 
     drawerToggle(): void
 
@@ -163,7 +162,7 @@ class NavBar extends Component<IProps> {
                                 <Link id="link_to_home_page" to="/" onClick={closeMobileView}>
                                     <img
                                         src={themeMode === ThemeMode.LIGHT ? LogoLight : LogoDark}
-                                        alt="Logo"/>
+                                        alt="Logo" />
                                 </Link>
                             </Box>
                         </Tooltip>
@@ -177,8 +176,8 @@ class NavBar extends Component<IProps> {
                         to="/app/home"
                         onClick={closeMobileView}
                         className={classes.listItemButton}>
-                        <ListItemIcon className={classes.listItemIcon}><Home/></ListItemIcon>
-                        <ListItemText primary={t('DRAWER.HOME')}/>
+                        <ListItemIcon className={classes.listItemIcon}><Home /></ListItemIcon>
+                        <ListItemText primary={t('DRAWER.HOME')} />
                     </ListItemButton>
 
                     <ListItemButton
@@ -187,8 +186,8 @@ class NavBar extends Component<IProps> {
                         to="/app/menu1"
                         onClick={closeMobileView}
                         className={classes.listItemButton}>
-                        <ListItemIcon className={classes.listItemIcon}><Menu/></ListItemIcon>
-                        <ListItemText primary={t('DRAWER.MENU1')}/>
+                        <ListItemIcon className={classes.listItemIcon}><Menu /></ListItemIcon>
+                        <ListItemText primary={t('DRAWER.MENU1')} />
                     </ListItemButton>
 
                     <ListItemButton
@@ -197,8 +196,8 @@ class NavBar extends Component<IProps> {
                         to="/app/menu2"
                         onClick={closeMobileView}
                         className={classes.listItemButton}>
-                        <ListItemIcon className={classes.listItemIcon}><Dashboard/></ListItemIcon>
-                        <ListItemText primary={t('DRAWER.MENU2')}/>
+                        <ListItemIcon className={classes.listItemIcon}><Dashboard /></ListItemIcon>
+                        <ListItemText primary={t('DRAWER.MENU2')} />
                     </ListItemButton>
 
                 </List>
@@ -218,9 +217,9 @@ class NavBar extends Component<IProps> {
                     sx={{ width: '95%', height: '40px' }}
                     value={value}
                     onChange={(e: any, newValue: string) => navigate(`/app/${newValue}`)}>
-                    <BottomNavigationAction value="home" icon={<Home/>}/>
-                    <BottomNavigationAction value="menu1" icon={<Menu/>}/>
-                    <BottomNavigationAction value="menu2" icon={<Dashboard/>}/>
+                    <BottomNavigationAction value="home" icon={<Home />} />
+                    <BottomNavigationAction value="menu1" icon={<Menu />} />
+                    <BottomNavigationAction value="menu2" icon={<Dashboard />} />
                 </BottomNavigation>
             </Box>
 

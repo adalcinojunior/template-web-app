@@ -42,7 +42,7 @@ class FooterComponent extends Component<IProps> {
     public render() {
         const { classes, className, t } = this.props
         const year = new Date().getFullYear()
-        const appTitle: string = `${process.env.REACT_APP_TITLE || t('APP.TITLE')}`
+        const appTitle: string = `${import.meta.VITE_TITLE || t('APP.TITLE')}`
         return <footer className={classes.footer}>
             <Box className={className}>
                 <Typography variant="caption">

@@ -37,12 +37,12 @@ available:
 
 | VARIABLE                  | DESCRIPTION                                                        | DEFAULT                  |
 |---------------------------|--------------------------------------------------------------------|--------------------------|
-| `REACT_APP_LS_SECRET_KEY` | Encryption key used to encrypt data stored in localStorage.        | `s3cr3tk3y`              |
-| `PORT`               | Port used by the application to listen to HTTP requests in a development environment. | `3000`                     |
-| `REACT_APP_ISSUER` | Issuer used to generate the JWT token.        | `issuer`              |
-| `REACT_APP_JWT_PUBLIC_KEY` | Public key for validating the jwt token.        | `-----BEGIN RSA PUBLIC KEY----------END RSA PUBLIC KEY-----`              |
-| `REACT_APP_TITLE` | Application title.        | `Template Web-app`              |
-| `REACT_APP_DESCRIPTION` | Application description.        | `Projeto base para criação de aplicações web usando react+mui+redux toolkit+i18next.`              |
+| `VITE_PORT` | Port used by the application to listen to HTTP requests in a **development** environment. | `3000` |
+| `VITE_ISSUER` | Issuer used to generate the JWT token.        | `issuer`              |
+| `VITE_JWT_PUBLIC_KEY` | Public key for validating the jwt token.        | `-----BEGIN RSA PUBLIC KEY----------END RSA PUBLIC KEY-----`              |
+| `VITE_TITLE` | Application title.        | `Template Web-app`              |
+| `VITE_DESCRIPTION` | Application description.        | `Projeto base para criação de aplicações web usando react+mui+redux toolkit+i18next.`              |
+| `VITE_API_GATEWAY`   | URI used to connect to the API GATEWAY public API. | `https://localhost:8081.` |
 | `SSL_KEY_PATH` | Private key for SSL certificate.        | `.certs/server_key.pem`              |
 | `SSL_CERT_PATH` | Certificate for SSL certificate.        | `.certs/server_cert.pem`              |
 
@@ -118,12 +118,11 @@ docker run --rm \
   -v $(pwd)/.certs:/etc \
   -e SSL_KEY_PATH=/etc/server_key.pem \
   -e SSL_CERT_PATH=/etc/server_cert.pem \
-  -e REACT_APP_ENV=development \
-  -e REACT_APP_LS_SECRET_KEY="s3cr3tk3y" \
-  -e REACT_APP_ISSUER="issuer" \
-  -e REACT_APP_JWT_PUBLIC_KEY=/etc/jwt.key.pub \
-  -e REACT_APP_TITLE="Application title." \
-  -e REACT_APP_DESCRIPTION="Application description." \
+  -e VITE_ISSUER="issuer" \
+  -e VITE_JWT_PUBLIC_KEY=/etc/jwt.key.pub \
+  -e VITE_TITLE="Application title." \
+  -e VITE_DESCRIPTION="Application description." \
+  -e VITE_API_GATEWAY=https://localhost:8081 \
   -p 443:443 \
   --name template_web_app \
   template/web-app
@@ -134,13 +133,12 @@ To view the front-end in the browser, simply access the address: [https://localh
 #### HTTP
 ```sh
 docker run --rm \
-  -v $(pwd)/jwt.key.pub:/etc/jwt.key.pub \
-  -e REACT_APP_ENV=development \
-  -e REACT_APP_LS_SECRET_KEY="s3cr3tk3y" \
-  -e REACT_APP_ISSUER="issuer" \
-  -e REACT_APP_JWT_PUBLIC_KEY=/etc/jwt.key.pub \
-  -e REACT_APP_TITLE="Application title." \
-  -e REACT_APP_DESCRIPTION="Application description." \
+  -v $(pwd)/.certs/jwt.key.pub:/etc/jwt.key.pub \
+  -e VITE_ISSUER="issuer" \
+  -e VITE_JWT_PUBLIC_KEY=/etc/jwt.key.pub \
+  -e VITE_TITLE="Application title." \
+  -e VITE_DESCRIPTION="Application description." \
+  -e VITE_API_GATEWAY=https://localhost:8081 \
   -p 80:80 \
   --name template_web_app \
   template/web-app
