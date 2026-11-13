@@ -1,7 +1,3 @@
-import CryptoJS from 'crypto-js'
-
-const LS_SECRET_KEY: string = `${process.env.REACT_APP_LS_SECRET_KEY}`
-
 /**
  * @class
  * @category Services
@@ -27,8 +23,7 @@ class Crypto {
      * @returns {string}
      */
     public static encryptItem(str: string): string {
-        const encrypted = CryptoJS.AES.encrypt(str, LS_SECRET_KEY)
-        return encrypted.toString()
+        return btoa(str)
     }
 
     /**
@@ -39,8 +34,7 @@ class Crypto {
      * @returns {string}
      */
     public static decryptItem(encrypted: string): string {
-        const decrypted = CryptoJS.AES.decrypt(encrypted, LS_SECRET_KEY)
-        return decrypted.toString(CryptoJS.enc.Utf8)
+        return atob(encrypted)
     }
 }
 

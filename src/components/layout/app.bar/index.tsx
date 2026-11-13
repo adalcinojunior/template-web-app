@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import { AccountCircle, ExitToApp, Face, Menu as MenuIcon } from '@mui/icons-material'
 import {
     AppBar,
     Avatar,
@@ -14,15 +15,13 @@ import {
     Toolbar,
     Typography
 } from '@mui/material'
-import { AccountCircle, ExitToApp, Face, Menu as MenuIcon } from '@mui/icons-material'
 import { styled } from '@mui/material/styles'
 import { createStyles, withStyles, WithStyles } from '@mui/styles'
-import { WithTranslation, withTranslation } from 'react-i18next'
 import clsx from 'clsx'
+import { WithTranslation, withTranslation } from 'react-i18next'
 
-import { DRAWER_WIDTH } from '../nav.bar'
-import authService from '../../../services/auth'
 import ThemeButton from '../../../containers/layout/theme.button'
+import authService from '../../../services/auth'
 import { IComponentRouter, withRouter } from '../../with.router'
 
 export const UserButton = styled(Button)({
@@ -38,8 +37,8 @@ const Style = (theme: Theme) => createStyles({
     },
     desktop: {
         [theme.breakpoints.up('lg')]: {
-            width: `calc(100% - ${DRAWER_WIDTH}px)`,
-            marginLeft: DRAWER_WIDTH
+            width: (props: any) => `calc(100% - ${props.drawerWidth}px)`,
+            marginLeft: (props: any) => props.drawerWidth
         },
         transition: '.2s all'
     },
@@ -61,6 +60,7 @@ interface AppBarProps extends WithStyles<typeof Style, true> {
     readonly avatar: string
     readonly username: string
     readonly desktopOpen: boolean
+    readonly drawerWidth: number
 }
 
 /**
@@ -128,7 +128,8 @@ class AppBarComponent extends Component<IProps, IState> {
             t,
             username,
             avatar,
-            theme
+            theme,
+            drawerWidth
         } = this.props
 
         const {
@@ -151,9 +152,9 @@ class AppBarComponent extends Component<IProps, IState> {
             }}>
 
             <Toolbar variant="dense">
-                
+
                 <Box sx={{ display: { xl: 'block', lg: 'block', md: 'block', sm: 'none', xs: 'none' } }}>
-                    <Box style={{ marginLeft: desktopOpen ? `${DRAWER_WIDTH}px` : '10px' }}>
+                    <Box style={{ marginLeft: desktopOpen ? `${drawerWidth}px` : '10px' }}>
                         <IconButton
                             id="btn_toggle_drawer"
                             color="inherit"
@@ -161,21 +162,21 @@ class AppBarComponent extends Component<IProps, IState> {
                             edge="start"
                             onClick={drawerToggleDesktop}
                             className={classes.menuButton}>
-                            <MenuIcon/>
+                            <MenuIcon />
                         </IconButton>
                     </Box>
                 </Box>
 
-                <Typography variant="h6" className={classes.title} noWrap={true}/>
+                <Typography variant="h6" className={classes.title} noWrap={true} />
 
-                <ThemeButton color={theme.palette.background.paper}/>
+                <ThemeButton color={theme.palette.background.paper} />
 
                 <Box display="flex" justifyContent="center" alignItems="center">
 
                     {
                         goingOut
                         && <Box position="absolute" zIndex={1100}>
-                            <CircularProgress size={24} color="primary"/>
+                            <CircularProgress size={24} color="primary" />
                         </Box>
                     }
 
@@ -188,9 +189,9 @@ class AppBarComponent extends Component<IProps, IState> {
                                 ? <Avatar
                                     src={avatar}
                                     style={{ width: '20px', height: '20px' }}
-                                    alt={`${t('DEFAULT.AVATAR')}`}/>
+                                    alt={`${t('DEFAULT.AVATAR')}`} />
                                 :
-                                <AccountCircle color="disabled" style={{ color: theme.palette.background.paper }}/>
+                                <AccountCircle color="disabled" style={{ color: theme.palette.background.paper }} />
                         }>
                         {/* The username in the appbar */}
                         {username || '...'}
@@ -211,7 +212,7 @@ class AppBarComponent extends Component<IProps, IState> {
                             this.profile()
                         }}>
                         <ListItemIcon>
-                            <Face fontSize="small"/>
+                            <Face fontSize="small" />
                         </ListItemIcon>
                         <Typography variant="inherit" noWrap={true}>
                             {t('APP_BAR.PROFILE')}
@@ -225,7 +226,7 @@ class AppBarComponent extends Component<IProps, IState> {
                             this.logout()
                         }}>
                         <ListItemIcon>
-                            <ExitToApp fontSize="small"/>
+                            <ExitToApp fontSize="small" />
                         </ListItemIcon>
                         <Typography variant="inherit" noWrap={true}>
                             {t('APP_BAR.EXIT')}

@@ -1,4 +1,3 @@
-import { Agent } from 'https'
 import axios, { AxiosInstance } from 'axios'
 
 /**
@@ -16,8 +15,7 @@ class Axios {
     public static getInstance(): AxiosInstance {
         if (!this._instance) {
             this._instance = axios.create({
-                baseURL: process.env.REACT_APP_API_GATEWAY,
-                httpsAgent: new Agent({ rejectUnauthorized: false })
+                baseURL: import.meta.VITE_API_GATEWAY
             })
         }
         return this._instance

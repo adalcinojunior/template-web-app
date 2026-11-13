@@ -15,7 +15,7 @@ const store = configureStore({
         layout,
         snackbar
     },
-    devTools: process.env.NODE_ENV !== 'production',
+    devTools: import.meta.NODE_ENV !== 'production',
     middleware: [sagaMiddleware]
 })
 

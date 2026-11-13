@@ -1,18 +1,17 @@
 import React, { Component, lazy } from 'react'
 
 import { Box, Theme } from '@mui/material'
-import { Outlet } from 'react-router-dom'
 import withWidth, { isWidthDown, WithWidth } from '@mui/material/Hidden/withWidth'
-import { connect } from 'react-redux'
 import { createStyles, withStyles, WithStyles } from '@mui/styles'
+import { connect } from 'react-redux'
+import { Outlet } from 'react-router-dom'
 
-import { ThemeMode } from '../../material.theme'
-import { IComponentRouter, withRouter } from '../../components/with.router'
-import { LayoutActions } from '../../store/layout'
-import localStorageService from '../../services/local.storage'
-import { DRAWER_WIDTH } from '../../components/layout/nav.bar'
-import { ApplicationState } from '../../store/root.types'
 import { withTranslation, WithTranslation } from 'react-i18next'
+import { IComponentRouter, withRouter } from '../../components/with.router'
+import { ThemeMode } from '../../material.theme'
+import localStorageService from '../../services/local.storage'
+import { LayoutActions } from '../../store/layout'
+import { ApplicationState } from '../../store/root.types'
 
 const AppBar = lazy(() => import('../../components/layout/app.bar'))
 const NavBar = lazy(() => import('../../components/layout/nav.bar'))
@@ -125,6 +124,8 @@ class LayoutComponent extends Component<IJoinProps, IState> {
 
         const downMd = isWidthDown('md', width)
 
+        const drawerWidth: number = 220
+
         return <React.Fragment>
 
             <Box
@@ -135,8 +136,9 @@ class LayoutComponent extends Component<IJoinProps, IState> {
                     theme={theme}
                     desktopOpen={desktopOpen}
                     username={username}
+                    drawerWidth={drawerWidth}
                     drawerToggleDesktop={this.handleDrawerToggleDesktop}
-                    drawerToggle={this.handleDrawerToggle}/>
+                    drawerToggle={this.handleDrawerToggle} />
 
                 <NavBar
                     mobileOpen={mobileOpen}
@@ -144,24 +146,25 @@ class LayoutComponent extends Component<IJoinProps, IState> {
                     drawerToggle={this.handleDrawerToggle}
                     theme={theme}
                     themeMode={themeMode}
-                    closeMobileView={() => this.setState({ mobileOpen: false })}/>
+                    drawerWidth={drawerWidth}
+                    closeMobileView={() => this.setState({ mobileOpen: false })} />
 
                 <Box
                     display="flex"
                     flexDirection="column"
                     justifyContent="space-between"
                     flexGrow={1}
-                    style={{ marginLeft: desktopOpen && !downMd ? `${DRAWER_WIDTH}px` : '0px' }}>
+                    style={{ marginLeft: desktopOpen && !downMd ? `${drawerWidth}px` : '0px' }}>
 
                     <Box p={1}>
 
-                        <BreadcrumbsComponent breadCrumbLast={breadCrumbLast}/>
+                        <BreadcrumbsComponent breadCrumbLast={breadCrumbLast} />
 
-                        <Outlet/>
+                        <Outlet />
 
                     </Box>
 
-                    <Footer/>
+                    <Footer />
 
                 </Box>
 

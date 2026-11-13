@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken'
-import axiosInstance from './axios'
-import localStorageService from './local.storage'
 import { AccessToken } from '../application/domain/models/auth/access.token'
+import axiosInstance from './axios'
+import jwtService from './jwt'
+import localStorageService from './local.storage'
 
 /**
  * Auth service.
@@ -28,7 +28,7 @@ export class AuthService {
         }
         const response = await axiosInstance.post(`${this.apiVersion}/auth`, body)
         const { access_token, refresh_token } = response.data
-        const accessToken: AccessToken = this.verify(access_token)
+        const accessToken: AccessToken = await this.verify(access_token)
         localStorageService.setItem('access_token', access_token)
         localStorageService.setItem('refresh_token', refresh_token)
         return accessToken
@@ -52,14 +52,14 @@ export class AuthService {
      * @returns {boolean}
      */
     public isAuthenticated(): boolean {
-        return true
-        // try {
-        //     const localToken: AccessToken | Error = this.decodeToken()
-        //     return !!localToken
-        // } catch (e) {
-        //     this.logout()
-        //     return false
-        // }
+        try {
+            // const localToken: AccessToken | Error = this.decodeToken()
+            // return !!localToken
+            return true
+        } catch (e) {
+            this.logout()
+            return false
+        }
     }
 
     /**
@@ -84,8 +84,8 @@ export class AuthService {
      * @returns {AccessToken}
      */
     public decode(token: string): AccessToken {
-        const jsonDecoded: any = jwt.decode(token, { complete: true })
-        return new AccessToken().fromJSON(jsonDecoded.payload)
+        const { payload } = jwtService.decode(token)
+        return new AccessToken().fromJSON(payload)
     }
 
     /**
@@ -96,18 +96,23 @@ export class AuthService {
      * @param {string} token Token jwt to be validated
      * @returns {AccessToken}
      */
-    public verify(token: string): AccessToken {
-        if (!process.env.REACT_APP_JWT_PUBLIC_KEY) {
-            throw new Error('REACT_APP_JWT_PUBLIC_KEY environment variable missing!')
+    public async verify(token: string): Promise<AccessToken> {
+        if (!import.meta.env.VITE_JWT_PUBLIC_KEY) {
+            throw new Error('VITE_JWT_PUBLIC_KEY environment variable missing!')
         }
-        if (!process.env.REACT_APP_ISSUER) {
-            throw new Error('REACT_APP_ISSUER environment variable missing!')
+
+        if (!import.meta.env.VITE_ISSUER) {
+            throw new Error('VITE_ISSUER environment variable missing!')
         }
-        const jwtPublicKey: string = `${process.env.REACT_APP_JWT_PUBLIC_KEY}`
-        const issuer: string = `${process.env.REACT_APP_ISSUER}`
-        const algorithms: any = ['RS256']
-        const jsonDecoded = jwt.verify(token, jwtPublicKey, { algorithms, issuer })
-        return new AccessToken().fromJSON(jsonDecoded)
+
+        const validJwt: boolean = await jwtService.verifySignature(token)
+
+        if (validJwt) {
+            const { payload } = jwtService.decode(token)
+            return new AccessToken().fromJSON(payload)
+        }
+
+        throw new Error('Not autenticated!')
     }
 }
 
